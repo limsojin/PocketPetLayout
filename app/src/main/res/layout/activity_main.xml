@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:background="@color/gray">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="포켓펫"
+        android:textStyle="bold"
+        android:textSize="50dp"
+        android:textColor="#9777D8"
+        android:layout_gravity="center"
+        android:layout_marginTop="150dp"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:text="설치동물 반려인을 위한"
+            android:textSize="18dp"
+            android:textStyle="italic|bold"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/text1"
+            android:text=" 커뮤니티 앱"
+            android:textSize="18dp"
+            android:textStyle="italic|bold"
+            android:textColor="#EF8989"
+            />
+
+    </RelativeLayout>
+
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/id1"
+        android:layout_gravity="center"
+        android:hint="  아이디"
+        android:background="@drawable/box_border"
+        android:padding="20dp"
+        android:drawableStart="@drawable/ic_baseline_how_to_reg_24"
+        android:drawableLeft="@drawable/ic_baseline_how_to_reg_24"
+        />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/password1"
+        android:layout_gravity="center"
+        android:hint="  비밀번호"
+        android:background="@drawable/box_border"
+        android:padding="20dp"
+        android:inputType="textPassword"
+        android:drawableStart="@drawable/ic_baseline_https_24"
+        android:drawableLeft="@drawable/ic_baseline_https_24"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <Button
+            android:id="@+id/login1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/blue"
+            android:text="로그인"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/join1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_toRightOf="@id/login1"
+            android:background="@drawable/blue"
+            android:text="회원가입"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>
