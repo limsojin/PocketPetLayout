@@ -24,7 +24,6 @@ import java.util.ArrayList;
 public class QnABoardActivity extends AppCompatActivity {
     public final static String TAG = "QnABoardActivity";
 
-
     private Toolbar toolbar;
     //하단 버튼 없애기
     private View decorView;
@@ -81,18 +80,27 @@ public class QnABoardActivity extends AppCompatActivity {
 
         qnaListView.setAdapter(boardAdapter);
 
+        //ListView 내부 아이템이 클릭 되었을 경우?
         qnaListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                int Id = boardAdapter.getItem(position).getId();
+
                 Toast.makeText(getApplicationContext(),
-                        "선택한 board의 boardID :" + boardAdapter.getItem(position).getId(),
+                        "선택한 board의 boardID :" + Id,
                         Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(getApplicationContext(), BoardContentsActivity.class);
+                intent.putExtra("BoardId", Id); //게시글 아이디를 전송
+                startActivity(intent);
+
+
             }
         });
 
 
         // 플로팅 버튼
-
         fab = (FloatingActionButton)findViewById(R.id.fab);
 
         //플로팅 버튼

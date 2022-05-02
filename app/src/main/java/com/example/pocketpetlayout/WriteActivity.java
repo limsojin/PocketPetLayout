@@ -45,10 +45,7 @@ public class WriteActivity extends AppCompatActivity {
     Button d_Btn;
     TextView getImgBtn;
 
-    //현재 시간 가져오기
-    long now = System.currentTimeMillis();
-    Date date;
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
 
     //사진 등록
     ImageView imgView;
@@ -135,6 +132,10 @@ public class WriteActivity extends AppCompatActivity {
                 //내용
                 contentStr = content.getText().toString();
                 //현재 시간
+                //현재 시간 가져오기
+                long now = System.currentTimeMillis();
+                Date date;
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 now = System.currentTimeMillis();
                 date = new Date(now);
                 reg_date = sdf.format(date);
