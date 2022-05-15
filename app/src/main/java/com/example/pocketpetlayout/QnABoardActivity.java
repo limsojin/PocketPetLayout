@@ -73,32 +73,37 @@ public class QnABoardActivity extends AppCompatActivity {
 
 
         //ListView에 QnA 게시글 나열하기위한 데이터 초기화
-        this.InitializeQnABoardData();
+        InitializeQnABoardData();
 
-        ListView qnaListView = this.findViewById(R.id.qnaListView);
-        final BoardAdapter boardAdapter = new BoardAdapter(this, QnA_BoardItems);
+        if(!QnA_BoardItems.isEmpty()) {
+            //Listview 지정
+            ListView qnaListView = this.findViewById(R.id.qnaListView);
 
-        qnaListView.setAdapter(boardAdapter);
+            // ListView Adpater 지정
+            final BoardAdapter boardAdapter = new BoardAdapter(this, QnA_BoardItems);
 
-        //ListView 내부 아이템이 클릭 되었을 경우?
-        qnaListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+            // ListView의 어뎁터를 셋한다.
+            qnaListView.setAdapter(boardAdapter);
 
-                int Id = boardAdapter.getItem(position).getId();
+            //ListView 내부 아이템이 클릭 되었을 경우?
+            qnaListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-                Toast.makeText(getApplicationContext(),
-                        "선택한 board의 boardID :" + Id,
-                        Toast.LENGTH_LONG).show();
+                    int Id = boardAdapter.getItem(position).getId();
 
-                Intent intent = new Intent(getApplicationContext(), BoardContentsActivity.class);
-                intent.putExtra("BoardId", Id); //게시글 아이디를 전송
-                startActivity(intent);
+                    Toast.makeText(getApplicationContext(),
+                            "선택한 board의 boardID :" + Id,
+                            Toast.LENGTH_LONG).show();
+
+                    Intent intent = new Intent(getApplicationContext(), BoardContentsActivity.class);
+                    intent.putExtra("BoardId", Id); //게시글 아이디를 전송
+                    startActivity(intent);
 
 
-            }
-        });
-
+                }
+            });
+        }
 
         // 플로팅 버튼
         fab = (FloatingActionButton)findViewById(R.id.fab);
