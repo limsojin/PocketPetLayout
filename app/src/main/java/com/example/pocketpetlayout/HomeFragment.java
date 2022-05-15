@@ -38,6 +38,7 @@ public class HomeFragment extends Fragment {
 
     //DB
     DBHelper dbHelper;
+    MyDbHelper myDbHelper;
 
     private ImageView userImage;
     private ImageView petImage;
@@ -132,7 +133,7 @@ public class HomeFragment extends Fragment {
 
         //DBHelper
         dbHelper = new DBHelper(this.getActivity().getApplicationContext());
-
+        myDbHelper = new MyDbHelper(this.getActivity().getApplicationContext());
         // QnA의 RecyclerView
         firstQnAInit(view);
 
@@ -145,10 +146,6 @@ public class HomeFragment extends Fragment {
 
         //Feed의 RecyclerView
         firstFeedInit(view);
-
-        for(int i=0;i<5;i++){
-            addFeedItem("FeedName"); //DB 데이터를 집어 넣는다
-        }
 
         mFeedAdapter = new HomeFeedAdapter(mFeedList);
         mFeedView.setAdapter(mFeedAdapter);
@@ -240,11 +237,6 @@ public class HomeFragment extends Fragment {
 
     }
 
-    public void addQnAItem(String imgName, String mainText){
-        QnAItem qnaItem = new QnAItem(imgName, mainText);
-
-        mQnAList.add(qnaItem);
-    }
     //------------
 
 
@@ -252,14 +244,20 @@ public class HomeFragment extends Fragment {
     public void firstFeedInit(View view){
         mFeedView = (RecyclerView) view.findViewById(R.id.FeedView);
         mFeedList = new ArrayList<>();
-    }
 
-    public void addFeedItem(String imgName){
-        FeedItem feedItem = new FeedItem();
+        SQLiteDatabase db = myDbHelper.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT " + Feed.IMAGE + " FROM " + Feed.TABLE_NAME, null );
 
-        feedItem.setImgName(imgName);
+        if (c.moveToFirst()) {
+            do{
+                String imgName = c.getString(0);
 
-        mFeedList.add(feedItem);
+                mFeedList.add(new FeedItem(imgName));
+                Log.i(TAG, "READ img : " + imgName);
+            }while (c.moveToNext());
+        }
+        c.close();
+        db.close();
     }
     //-----------------
 

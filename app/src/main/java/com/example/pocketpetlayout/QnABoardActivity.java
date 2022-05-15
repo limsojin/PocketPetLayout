@@ -27,7 +27,7 @@ public class QnABoardActivity extends AppCompatActivity {
     private Toolbar toolbar;
     //하단 버튼 없애기
     private View decorView;
-    private int	uiOption;
+    private int uiOption;
 
     //DB
     DBHelper dbHelper;
@@ -62,20 +62,20 @@ public class QnABoardActivity extends AppCompatActivity {
         //하단 버튼을 없애는 기능
         decorView = getWindow().getDecorView();
         uiOption = getWindow().getDecorView().getSystemUiVisibility();
-        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
             uiOption |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
             uiOption |= View.SYSTEM_UI_FLAG_FULLSCREEN;
-        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
             uiOption |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-        decorView.setSystemUiVisibility( uiOption );
+        decorView.setSystemUiVisibility(uiOption);
         //---------------------
 
 
         //ListView에 QnA 게시글 나열하기위한 데이터 초기화
         InitializeQnABoardData();
 
-        if(!QnA_BoardItems.isEmpty()) {
+        if (!QnA_BoardItems.isEmpty()) {
             //Listview 지정
             ListView qnaListView = this.findViewById(R.id.qnaListView);
 
@@ -106,7 +106,7 @@ public class QnABoardActivity extends AppCompatActivity {
         }
 
         // 플로팅 버튼
-        fab = (FloatingActionButton)findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
 
         //플로팅 버튼
         fab.setOnClickListener(new View.OnClickListener() {
@@ -150,9 +150,8 @@ public class QnABoardActivity extends AppCompatActivity {
     //--------------
 
 
-
     //ListView에 넣읗 데이터 초기화 (내부저장소에서 가져온다)
-    public void InitializeQnABoardData(){
+    public void InitializeQnABoardData() {
         Log.i(TAG, "InitializeQnABoardData!!!");
         QnA_BoardItems = new ArrayList<BoardItem>();
 
@@ -160,32 +159,31 @@ public class QnABoardActivity extends AppCompatActivity {
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT " +
-                                    Board.COLUMN_BOARD_ID + " ," +
-                                    Board.COLUMN_TITLE + " ," +
-                                    Board.COLUMN_WRITER + " ," +
-                                    Board.COLUMN_REGISTER_DATE + " ," +
-                                    Board.COLUMN_LIKE_CNT + " ," +
-                                    Board.COLUMN_COMMENT_CNT + " FROM " +
-                                    Board.TABLE_NAME + " WHERE " +
-                                    Board.COLUMN_CATEGORY + " = 'QnA';", null );
+                Board.COLUMN_BOARD_ID + " ," +
+                Board.COLUMN_TITLE + " ," +
+                Board.COLUMN_WRITER + " ," +
+                Board.COLUMN_REGISTER_DATE + " ," +
+                Board.COLUMN_LIKE_CNT + " ," +
+                Board.COLUMN_COMMENT_CNT + " FROM " +
+                Board.TABLE_NAME + " WHERE " +
+                Board.COLUMN_CATEGORY + " = 'QnA';", null);
 
 
         if (c.moveToFirst()) {
 
-            do{
+            do {
                 int id = c.getInt(0);
                 String title = c.getString(1);
                 String writer = c.getString(2);
                 String regDate = c.getString(3);
                 int heart = c.getInt(4);
                 int com = c.getInt(5);
-                QnA_BoardItems.add(new BoardItem(id,title,writer,regDate,heart,com));
+                QnA_BoardItems.add(new BoardItem(id, title, writer, regDate, heart, com));
                 Log.i(TAG, "READ id :" + id + "title :" + title + "writer :" + writer + "regDate" + regDate + "heart: " + heart + "com : " + com);
-            }while (c.moveToNext());
+            } while (c.moveToNext());
         }
         c.close();
         db.close();
     }
-
 
 }

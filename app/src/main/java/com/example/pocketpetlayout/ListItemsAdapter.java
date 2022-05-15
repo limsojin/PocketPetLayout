@@ -11,9 +11,9 @@ import java.util.ArrayList;
 
 public class ListItemsAdapter extends BaseAdapter {
     private Context mContext;
-    private ArrayList<String> mBoardItmes;
+    private ArrayList<BoardItem> mBoardItmes;
 
-    public ListItemsAdapter(Context mContext, ArrayList<String> mBoardItmes) {
+    public ListItemsAdapter(Context mContext, ArrayList<BoardItem> mBoardItmes) {
         this.mContext = mContext;
         this.mBoardItmes = mBoardItmes;
     }
@@ -43,10 +43,14 @@ public class ListItemsAdapter extends BaseAdapter {
         TextView txt_Title = (TextView) convertView.findViewById(R.id.txt_title);
         TextView txt_Heart = (TextView) convertView.findViewById(R.id.txt_heart);
         TextView txt_Comm =  (TextView) convertView.findViewById(R.id.txt_comm);
+        TextView txt_Writer = (TextView) convertView.findViewById(R.id.txt_writer);
+        TextView txt_reg_date = (TextView) convertView.findViewById(R.id.txt_regDate);
 
-        txt_Title.setText("" + position);
-        txt_Heart.setText(mBoardItmes.get(position));
-        txt_Comm.setText(mBoardItmes.get(position));
+        txt_Title.setText(mBoardItmes.get(position).getTitle());
+        txt_Writer.setText(mBoardItmes.get(position).getWriter());
+        txt_reg_date.setText(mBoardItmes.get(position).getReg_date());
+        txt_Heart.setText(mBoardItmes.get(position).getHeart());
+        txt_Comm.setText(mBoardItmes.get(position).getComment());
 
         return convertView;
     }

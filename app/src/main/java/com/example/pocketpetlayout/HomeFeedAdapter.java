@@ -1,6 +1,8 @@
 package com.example.pocketpetlayout;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,14 @@ import java.util.ArrayList;
 // 홈 프레그 먼트 화면에서 보여주는 피드리사이클러 입니다!!!!!!
 // 피드 프래그먼트에서 사용하는거 아님!!!!!!!!!!!!!
 public class HomeFeedAdapter extends RecyclerView.Adapter<HomeFeedAdapter.ViewHolder> {
+    Context context;
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        context = recyclerView.getContext();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView feed_image;
 
@@ -51,7 +61,11 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<HomeFeedAdapter.ViewHo
     public void onBindViewHolder(@NonNull HomeFeedAdapter.ViewHolder holder, int position) {
         FeedItem item = mFeedList.get(position);
 
-        holder.feed_image.setImageResource(R.drawable.ic_launcher_background); // 사진 없어서 기본 파일로 이미지 띄움
+        String path = context.getCacheDir() + "/" +item.getImgName();
+        Bitmap bitmap = BitmapFactory.decodeFile(path);
+        Bitmap bmp = Bitmap.createScaledBitmap(bitmap, 500, 500, false);
+
+        holder.feed_image.setImageBitmap(bmp); // 사진 없어서 기본 파일로 이미지 띄움
     }
 
     @Override

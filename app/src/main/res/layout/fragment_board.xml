@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragment_board"
-    tools:context=".BoardActivity">
+    tools:context=".BoardFragment">
 
     <!--상단의 툴바 입니다. -->
     <androidx.appcompat.widget.Toolbar
