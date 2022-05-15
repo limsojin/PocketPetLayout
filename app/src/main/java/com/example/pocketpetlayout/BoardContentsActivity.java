@@ -80,6 +80,7 @@ public class BoardContentsActivity extends AppCompatActivity {
         //게시글 내용 가져옴
         loadContents();
 
+
         //ListView에 댓글을 나열하기위한 데이터 초기화
         InitializeQnABoardData();
 

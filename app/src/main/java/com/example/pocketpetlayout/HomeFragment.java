@@ -54,7 +54,7 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView mFeedView;
     private ArrayList<FeedItem> mFeedList;
-    private FeedAdapter mFeedAdapter;
+    private HomeFeedAdapter mFeedAdapter;
 
     private Button qnaMoreBtn;
     private Button feedMoreBtn;
@@ -150,7 +150,7 @@ public class HomeFragment extends Fragment {
             addFeedItem("FeedName"); //DB 데이터를 집어 넣는다
         }
 
-        mFeedAdapter = new FeedAdapter(mFeedList);
+        mFeedAdapter = new HomeFeedAdapter(mFeedList);
         mFeedView.setAdapter(mFeedAdapter);
         //mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mFeedView.setLayoutManager(new LinearLayoutManager(view.getContext(), RecyclerView.HORIZONTAL, false));
@@ -209,7 +209,7 @@ public class HomeFragment extends Fragment {
                 break;
             //피드 더보기
             case R.id.MoreButton2:
-                fragmentManager.beginTransaction().replace(R.id.fragment_frame,  feedFragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.fragment_frame, feedFragment).commit();
                 break;
         }
     }

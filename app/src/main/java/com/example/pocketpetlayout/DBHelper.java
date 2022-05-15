@@ -1,12 +1,9 @@
 package com.example.pocketpetlayout;
 
 import android.content.Context;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 public class DBHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
@@ -25,8 +22,6 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL(Board.SQL_DELETE_BOARD);
-        onCreate(sqLiteDatabase);
-
         sqLiteDatabase.execSQL(Comment.SQL_DELETE_COMMENT);
         onCreate(sqLiteDatabase);
     }

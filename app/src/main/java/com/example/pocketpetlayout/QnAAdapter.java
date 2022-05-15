@@ -68,8 +68,9 @@ public class QnAAdapter extends RecyclerView.Adapter<QnAAdapter.ViewHolder> {
 
         String path = context.getCacheDir() + "/" +item.getImgName();
         Bitmap bitmap = BitmapFactory.decodeFile(path);
+        Bitmap bmp = Bitmap.createScaledBitmap(bitmap, 500, 500, false);
 
-        holder.qna_image.setImageBitmap(bitmap); // raw 폴더에 저장된 이미지 띄우기
+        holder.qna_image.setImageBitmap(bmp); // raw 폴더에 저장된 이미지 띄우기
         holder.txt_main.setText(item.getMainText());
     }
 

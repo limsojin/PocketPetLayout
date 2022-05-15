@@ -27,7 +27,7 @@ public class HomeActivity<ResultProfileBinding> extends AppCompatActivity {
     private HomeFragment homeFragment;
     private BoardFragment boardFragment;
     private FeedFragment feedFragment;
-    private BookmarkFragment bookmarkFragment;
+    private CamFragment camFragment;
     //private ProfileFragment profileFragment;
 
 
@@ -40,7 +40,7 @@ public class HomeActivity<ResultProfileBinding> extends AppCompatActivity {
         homeFragment = new HomeFragment();
         boardFragment = new BoardFragment();
         feedFragment = new FeedFragment();
-        bookmarkFragment = new BookmarkFragment();
+        camFragment = new CamFragment();
         //profileFragment = new ProfileFragment();
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -80,7 +80,7 @@ public class HomeActivity<ResultProfileBinding> extends AppCompatActivity {
                                 return true;
                             case R.id.item_bookmark:
                                 Log.d(TAG, "onNavigationItemSelected: profile button clicked");
-                                fragmentManager.beginTransaction().replace(R.id.fragment_frame, bookmarkFragment).commit();
+                                fragmentManager.beginTransaction().replace(R.id.fragment_frame, camFragment).commit();
                                 return true;
                            /*
                             case R.id.item_profile:
