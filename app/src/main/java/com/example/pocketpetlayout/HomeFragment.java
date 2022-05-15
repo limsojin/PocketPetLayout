@@ -1,6 +1,8 @@
 package com.example.pocketpetlayout;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
@@ -33,6 +35,9 @@ public class HomeFragment extends Fragment {
 
 
     private Toolbar toolbar; //툴바
+
+    //DB
+    DBHelper dbHelper;
 
     private ImageView userImage;
     private ImageView petImage;
@@ -125,12 +130,11 @@ public class HomeFragment extends Fragment {
         feedMoreBtn.setOnClickListener(this::onClick);
         //-------------------
 
+        //DBHelper
+        dbHelper = new DBHelper(this.getActivity().getApplicationContext());
+
         // QnA의 RecyclerView
         firstQnAInit(view);
-
-        for(int i=0;i<5;i++){
-            addQnAItem("iconName", "QnA" + i); //DB 데이터를 집어 넣는다
-        }
 
         mQnaAdapter = new QnAAdapter(mQnAList);
         mQnaView.setAdapter(mQnaAdapter);
@@ -214,14 +218,30 @@ public class HomeFragment extends Fragment {
     //QnA 관련 함수
     public void firstQnAInit(View view){
         mQnaView = (RecyclerView) view.findViewById(R.id.QnaView);
-        mQnAList = new ArrayList<>();
+        mQnAList = new ArrayList<QnAItem>();
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT " +
+                                    Board.COLUMN_TITLE + " ," +
+                                    Board.COLUMN_IMAGE + " FROM " + Board.TABLE_NAME +
+                                    " WHERE " +  Board.COLUMN_CATEGORY + " = 'QnA' " + ";", null );
+
+        if (c.moveToFirst()) {
+            do{
+                String title = c.getString(0);
+                String imgName = c.getString(1);
+
+                mQnAList.add(new QnAItem(imgName, title));
+                Log.i(TAG, "READ title :" + title + "img : " + imgName);
+            }while (c.moveToNext());
+        }
+        c.close();
+        db.close();
+
     }
 
     public void addQnAItem(String imgName, String mainText){
-        QnAItem qnaItem = new QnAItem();
-
-        qnaItem.setImgName(imgName);
-        qnaItem.setMainText(mainText);
+        QnAItem qnaItem = new QnAItem(imgName, mainText);
 
         mQnAList.add(qnaItem);
     }

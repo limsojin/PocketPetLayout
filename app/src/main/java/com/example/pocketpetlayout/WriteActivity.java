@@ -200,7 +200,7 @@ public class WriteActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK){
                 Uri fileUri = data.getData();
                 String uri = data.getDataString();
-                imgName = uri.substring(57);
+                imgName = uri.substring(61);
                 Log.i(TAG, "파일 Uri : " + fileUri);
                 ContentResolver resolver = getContentResolver();
                 try{

@@ -1,6 +1,10 @@
 package com.example.pocketpetlayout;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +14,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class QnAAdapter extends RecyclerView.Adapter<QnAAdapter.ViewHolder> {
+
+    Context context;
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        context = recyclerView.getContext();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView qna_image;
         TextView txt_main;
@@ -22,7 +36,10 @@ public class QnAAdapter extends RecyclerView.Adapter<QnAAdapter.ViewHolder> {
             super(itemView);
 
             qna_image = (ImageView) itemView.findViewById(R.id.QnA_image);
+
             txt_main = (TextView) itemView.findViewById(R.id.txt_main);
+
+
         }
     }
 
@@ -49,7 +66,10 @@ public class QnAAdapter extends RecyclerView.Adapter<QnAAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull QnAAdapter.ViewHolder holder, int position) {
         QnAItem item = mQnAList.get(position);
 
-        holder.qna_image.setImageResource(R.drawable.ic_launcher_background); // 사진 없어서 기본 파일로 이미지 띄움
+        String path = context.getCacheDir() + "/" +item.getImgName();
+        Bitmap bitmap = BitmapFactory.decodeFile(path);
+
+        holder.qna_image.setImageBitmap(bitmap); // raw 폴더에 저장된 이미지 띄우기
         holder.txt_main.setText(item.getMainText());
     }
 
@@ -57,5 +77,6 @@ public class QnAAdapter extends RecyclerView.Adapter<QnAAdapter.ViewHolder> {
     public int getItemCount() {
         return mQnAList.size();
     } //아이템 사이즈도 지정하기
+
 }
 

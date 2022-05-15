@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -12,10 +13,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -35,6 +41,8 @@ public class BoardContentsActivity extends AppCompatActivity {
     TextView contentView;
     TextView heartView;
     TextView commView;
+
+    ArrayList<CommentItem> commentItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +77,36 @@ public class BoardContentsActivity extends AppCompatActivity {
         heartView = findViewById(R.id.heart);
         commView = findViewById(R.id.comment);
 
+        //게시글 내용 가져옴
         loadContents();
 
+        //ListView에 댓글을 나열하기위한 데이터 초기화
+        InitializeQnABoardData();
+
+        if(!commentItems.isEmpty()) { //댓글 리스트가 비어있으면 아래 실행하지 않음
+
+            //Listview 지정
+            ListView commListView = this.findViewById(R.id.comment_list);
+
+            // ListView Adpater 지정
+            final CommentAdapter commentAdapter = new CommentAdapter(this, commentItems);
+
+            // ListView의 어뎁터를 셋한다.
+            commListView.setAdapter(commentAdapter);
+
+            //ListView 내부 아이템이 클릭 되었을 경우?
+        /*    commListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                    Toast.makeText(getApplicationContext(),
+                            "선택한 board의 boardID :" + Id,
+                            Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getApplicationContext(), BoardContentsActivity.class);
+                    intent.putExtra("BoardId", Id); //게시글 아이디를 전송
+                    startActivity(intent);
+                }
+            });*/
+        }
 
     }
     //ToolBar에 추가된 항목의 select 이벤트를 처리하는 함수
@@ -86,6 +122,7 @@ public class BoardContentsActivity extends AppCompatActivity {
     }
     //--------------
 
+    // 게시글 콘텐츠를 불러온 것
     public void loadContents(){
         Log.i(TAG, "loagContents");
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -121,5 +158,36 @@ public class BoardContentsActivity extends AppCompatActivity {
         c.close();
         db.close();
     }
+
+
+    //ListView에 넣을 데이터 초기화 (내부저장소에서 가져온다) 댓글을 가져오는 것!
+    public void InitializeQnABoardData(){
+        Log.i(TAG, "InitializeQnABoardData!!!");
+        commentItems = new ArrayList<CommentItem>();
+
+        // board ID를 통해 댓글을 가져옴!!
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM " + Comment.TABLE_NAME +
+                " WHERE " + Comment.COLUMN_BOARD_ID + " = " + boardId + " ; ", null);
+
+
+        if (c.moveToFirst()) {
+
+            do{
+                int id = c.getInt(0);
+                String writer = c.getString(1);  //작성자
+                String comment = c.getString(2); //댓글내용
+                String regDate = c.getString(3); //작성일자
+
+                commentItems.add(new CommentItem(writer,comment,regDate)); // ITEMS에 삽입
+
+                Log.i(TAG, "READ id :" + id +  "writer :" + writer +  "comment" + comment +"regDate" + regDate);
+            }while (c.moveToNext());
+        }
+        c.close();
+        db.close();
+    }
+
 
 }
