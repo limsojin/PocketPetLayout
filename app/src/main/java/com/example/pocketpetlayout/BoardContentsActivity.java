@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,15 +16,17 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class BoardContentsActivity extends AppCompatActivity {
     public final static String TAG = "BoardContentsActivity";
@@ -41,6 +44,9 @@ public class BoardContentsActivity extends AppCompatActivity {
     TextView contentView;
     TextView heartView;
     TextView commView;
+
+    EditText comentText;
+    Button sendComm;
 
     ArrayList<CommentItem> commentItems;
 
@@ -76,6 +82,42 @@ public class BoardContentsActivity extends AppCompatActivity {
         contentView = findViewById(R.id.contentView);
         heartView = findViewById(R.id.heart);
         commView = findViewById(R.id.comment);
+        comentText = findViewById(R.id.commentText);
+        sendComm = findViewById(R.id.sendComment);
+
+        sendComm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(comentText.getText().toString() == null){
+                    Toast.makeText(BoardContentsActivity.this, "댓글을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                }else{
+                    String comment = comentText.getText().toString();
+                    //현재 시간 가져오기
+                    long now = System.currentTimeMillis();
+                    java.sql.Date date;
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    now = System.currentTimeMillis();
+                    date = new Date(now);
+                    String reg_date = sdf.format(date);
+
+                    ContentValues comm = new ContentValues();
+
+                    comm.put(Comment.COLUMN_BOARD_ID, boardId);
+                    comm.put(Comment.COLUMN_CONTENT, comment);
+                    comm.put(Comment.COLUMN_CREATE_DATE, reg_date);
+                    comm.put(Comment.COLUMN_NICKNAME, "User");
+
+                    Log.i(TAG, " 내용 : " + comment + " , 보드아이디 : " + boardId
+                            + ", 등록 시간 : " + reg_date);
+
+                    SQLiteDatabase db = dbHelper.getWritableDatabase();
+                    long newRowId = db.insert(Comment.TABLE_NAME, null, comm);
+                    Log.i(TAG, "new row id: " + newRowId);
+
+                }
+            }
+        });
+
 
         //게시글 내용 가져옴
         loadContents();

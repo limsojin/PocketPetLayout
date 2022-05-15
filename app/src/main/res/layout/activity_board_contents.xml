@@ -162,6 +162,31 @@
             android:textColor="@color/purple_200">
         </TextView>
 
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/commentText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="15"
+                    android:inputType="textLongMessage"
+                    android:text="댓글을 입력하세요." />
+            <android.widget.Button
+                android:id="@+id/sendComment"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="OK"
+                android:background="@drawable/blue"
+                android:textStyle="bold"
+                android:textColor="@color/white">
+            </android.widget.Button>
+
+        </LinearLayout>
+
+
         <ListView
             android:id="@+id/comment_list"
             android:layout_width="match_parent"
