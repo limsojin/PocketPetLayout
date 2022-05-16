@@ -120,6 +120,13 @@ public class BoardContentsActivity extends AppCompatActivity {
                 else{
                     Log.i(TAG, "하트 수 업데이트 실패");
                 }
+
+                //현재 화면 새로고침
+                finish();//인텐트 종료
+                overridePendingTransition(0, 0);//인텐트 효과 없애기
+                Intent intent = getIntent(); //인텐트
+                startActivity(intent); //액티비티 열기
+                overridePendingTransition(0, 0);//인텐트 효과 없애기
             }
         });
 
@@ -161,6 +168,14 @@ public class BoardContentsActivity extends AppCompatActivity {
                     else{
                         Log.i(TAG, " 댓글 수 업데이트 실패");
                     }
+
+                    //현재 화면 새로고침
+                    finish();//인텐트 종료
+                    overridePendingTransition(0, 0);//인텐트 효과 없애기
+                    Intent intent = getIntent(); //인텐트
+                    startActivity(intent); //액티비티 열기
+                    overridePendingTransition(0, 0);//인텐트 효과 없애기
+
                 }
             }
         });
