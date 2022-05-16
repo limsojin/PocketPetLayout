@@ -70,6 +70,6 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<HomeFeedAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return mFeedList.size();
+        return 5;
     }
 }

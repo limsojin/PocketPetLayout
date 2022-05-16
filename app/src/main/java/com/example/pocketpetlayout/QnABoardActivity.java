@@ -166,7 +166,8 @@ public class QnABoardActivity extends AppCompatActivity {
                 Board.COLUMN_LIKE_CNT + " ," +
                 Board.COLUMN_COMMENT_CNT + " FROM " +
                 Board.TABLE_NAME + " WHERE " +
-                Board.COLUMN_CATEGORY + " = 'QnA';", null);
+                Board.COLUMN_CATEGORY + " = 'QnA' " +
+                " ORDER BY " + Board.COLUMN_BOARD_ID + " DESC; ", null);
 
 
         if (c.moveToFirst()) {

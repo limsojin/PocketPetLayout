@@ -219,14 +219,16 @@ public class HomeFragment extends Fragment {
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT " +
+                                    Board.COLUMN_BOARD_ID + " , " +
                                     Board.COLUMN_TITLE + " ," +
                                     Board.COLUMN_IMAGE + " FROM " + Board.TABLE_NAME +
-                                    " WHERE " +  Board.COLUMN_CATEGORY + " = 'QnA' " + ";", null );
+                                    " WHERE " +  Board.COLUMN_CATEGORY + " = 'QnA' " +
+                                    "ORDER BY " + Board.COLUMN_BOARD_ID + " DESC ", null );
 
         if (c.moveToFirst()) {
             do{
-                String title = c.getString(0);
-                String imgName = c.getString(1);
+                String title = c.getString(1);
+                String imgName = c.getString(2);
 
                 mQnAList.add(new QnAItem(imgName, title));
                 Log.i(TAG, "READ title :" + title + "img : " + imgName);
@@ -246,7 +248,8 @@ public class HomeFragment extends Fragment {
         mFeedList = new ArrayList<>();
 
         SQLiteDatabase db = myDbHelper.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT " + Feed.IMAGE + " FROM " + Feed.TABLE_NAME, null );
+        Cursor c = db.rawQuery("SELECT " + Feed.IMAGE + " FROM " + Feed.TABLE_NAME
+                                    + " ORDER BY " + Feed.FEED_ID + " DESC ;", null );
 
         if (c.moveToFirst()) {
             do{

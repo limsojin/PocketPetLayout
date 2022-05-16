@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -26,6 +27,10 @@ public class FeedFragment extends Fragment {
     FloatingActionButton fab;
     GridView gridView;
     MyDbHelper myDbHelper;
+
+    //하단 버튼 없애기
+    private View decorView;
+    private int	uiOption;
 
     private static int[] imageIDs = {R.drawable.luv, R.drawable.luv2, R.drawable.luv3, R.drawable.luv4};
 
@@ -50,6 +55,20 @@ public class FeedFragment extends Fragment {
 
         }
 
+
+
+        //하단 버튼을 없애는 기능
+        decorView = getActivity().getWindow().getDecorView();
+        uiOption = getActivity().getWindow().getDecorView().getSystemUiVisibility();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+            uiOption |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+            uiOption |= View.SYSTEM_UI_FLAG_FULLSCREEN;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            uiOption |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        decorView.setSystemUiVisibility(uiOption);
+        //---------------------
+
         // 플로팅 버튼
         fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +90,7 @@ public class FeedFragment extends Fragment {
 
         SQLiteDatabase db = myDbHelper.getReadableDatabase();
 
-        Cursor c = db.rawQuery("SELECT * FROM " + Feed.TABLE_NAME, null );
+        Cursor c = db.rawQuery("SELECT * FROM " + Feed.TABLE_NAME + " ORDER BY " + Feed.FEED_ID + " DESC ", null );
 
         if(c.moveToFirst()){
             do{

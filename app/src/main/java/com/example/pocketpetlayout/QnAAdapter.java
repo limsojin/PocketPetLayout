@@ -76,8 +76,8 @@ public class QnAAdapter extends RecyclerView.Adapter<QnAAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mQnAList.size();
-    } //아이템 사이즈도 지정하기
+        return 5;
+    } //아이템 사이즈도 지정하기 최근 글 5개만 보여줌
 
 }
 

@@ -158,7 +158,7 @@ public class WriteActivity extends AppCompatActivity {
                 long newRowId = db.insert(Board.TABLE_NAME, null, board);
                 Log.i(TAG, "new row id: " + newRowId);
 
-                Toast.makeText(getApplicationContext(), "파일 삭제 성공", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "글 등록 성공", Toast.LENGTH_LONG).show();
                 finish();
 
 
@@ -178,12 +178,12 @@ public class WriteActivity extends AppCompatActivity {
                     for(int i=0; i< flist.length; i++) {
                         if (flist[i].getName().equals(imgName)) {
                             flist[i].delete(); //파일삭제
-                            Toast.makeText(getApplicationContext(), "파일 삭제 성공", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "글 삭제 성공", Toast.LENGTH_SHORT).show();
                         }
                     }
                     finish();
                 }catch(Exception e){
-                    Toast.makeText(getApplicationContext(), "파일 삭제 실패", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "글 삭제 실패", Toast.LENGTH_SHORT).show();
                 }
 
             }

@@ -91,9 +91,11 @@ public class AdoptBoardActivity extends AppCompatActivity {
 
                     int Id = boardAdapter.getItem(position).getId();
 
+/*
                     Toast.makeText(getApplicationContext(),
                             "선택한 board의 boardID :" + Id,
                             Toast.LENGTH_LONG).show();
+*/
 
                     Intent intent = new Intent(getApplicationContext(), BoardContentsActivity.class);
                     intent.putExtra("BoardId", Id); //게시글 아이디를 전송
@@ -162,7 +164,8 @@ public class AdoptBoardActivity extends AppCompatActivity {
                 Board.COLUMN_LIKE_CNT + " ," +
                 Board.COLUMN_COMMENT_CNT + " FROM " +
                 Board.TABLE_NAME + " WHERE " +
-                Board.COLUMN_CATEGORY + " = 'Adopt';", null );
+                Board.COLUMN_CATEGORY + " = 'Adopt'" +
+                " ORDER BY " + Board.COLUMN_BOARD_ID + " DESC; ", null );
 
 
         if (c.moveToFirst()) {

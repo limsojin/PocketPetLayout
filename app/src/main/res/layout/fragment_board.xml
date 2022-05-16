@@ -182,6 +182,7 @@
         android:id="@+id/list_items"
         android:layout_width="330dp"
         android:layout_height="200dp"
+        android:overScrollMode="never"
         app:layout_constraintTop_toBottomOf="@+id/textView6"
         app:layout_constraintLeft_toRightOf="@id/guideline15"
         />

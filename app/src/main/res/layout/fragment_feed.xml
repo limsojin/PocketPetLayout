@@ -42,6 +42,7 @@
         android:id="@+id/gridview"
         android:layout_width="match_parent"
         android:layout_height="540dp"
+        android:overScrollMode="never"
         android:numColumns="3">
 
     </GridView>
