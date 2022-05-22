@@ -93,6 +93,8 @@
         android:id="@+id/freeListView"
         android:layout_width="360dp"
         android:layout_height="600dp"
+        android:scrollbars="none"
+        android:layout_marginTop="20dp"
         app:layout_constraintLeft_toRightOf="@id/guideline2"
         app:layout_constraintTop_toBottomOf="@id/searchWord" />
 

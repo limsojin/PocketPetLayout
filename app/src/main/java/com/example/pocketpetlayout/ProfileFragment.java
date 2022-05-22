@@ -2,6 +2,7 @@ package com.example.pocketpetlayout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
@@ -20,6 +21,10 @@ public class ProfileFragment extends Fragment {
     Button ProfileFixBtn;
     Button CheckPetBtn;
 
+    //하단 버튼 없애기
+    private View decorView;
+    private int	uiOption;
+
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -32,6 +37,20 @@ public class ProfileFragment extends Fragment {
 
     @Override  // Inflate the layout for this fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+
+        //하단 버튼을 없애는 기능
+        decorView = getActivity().getWindow().getDecorView();
+        uiOption = getActivity().getWindow().getDecorView().getSystemUiVisibility();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+            uiOption |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+            uiOption |= View.SYSTEM_UI_FLAG_FULLSCREEN;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            uiOption |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        decorView.setSystemUiVisibility(uiOption);
+        //---------------------
+
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         // 프로필 편집 , 반려동물 편집 버튼
