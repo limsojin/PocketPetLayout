@@ -75,7 +75,7 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<HomeFeedAdapter.ViewHo
         }
         else{
             return mFeedList.size();
-            
+
         }
     }
 }
