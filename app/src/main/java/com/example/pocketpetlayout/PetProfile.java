@@ -5,13 +5,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class PetProfile extends AppCompatActivity {
+
+    private static final String TAG = "PetProfile" ;
+    TextView text1;
+    TextView text2;
+    TextView text3;
 
     //하단 버튼 없애기
     private View decorView;
@@ -22,6 +31,8 @@ public class PetProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_profile);
+
+
 
         //하단 버튼을 없애는 기능
         decorView = getWindow().getDecorView();
@@ -34,6 +45,8 @@ public class PetProfile extends AppCompatActivity {
             uiOption |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
         decorView.setSystemUiVisibility(uiOption);
         //---------------------
+
+        DBInfo();
 
         // 반려동물 프로필 변경 페이지 이동 버튼 이벤트
         Button button = findViewById(R.id.PetProfileButton1);
@@ -73,4 +86,27 @@ public class PetProfile extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public void DBInfo() {
+        MyDbHelper dbHelper = new MyDbHelper(getApplicationContext());
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor c = db.rawQuery("SELECT * FROM " + Pet.TABLE_NAME, null);
+
+        if (c.moveToFirst()) {
+            String pet_name = c.getString(0);
+            String birthday = c.getString(1);
+            String sex = c.getString(2);
+            Log.i(TAG, "name :" + pet_name + "birthday :" + birthday + "sex :" + sex);
+            text1 = findViewById(R.id.PetProfileText2);
+            text2 = findViewById(R.id.PetProfileText4);
+            text3 = findViewById(R.id.petProfileText6);
+            text1.setText(pet_name);
+            text2.setText(birthday);
+            text3.setText(sex);
+        }
+        c.close();
+        db.close();
+    }
+
 }

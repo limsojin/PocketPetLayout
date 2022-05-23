@@ -3,9 +3,12 @@ package com.example.pocketpetlayout;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +17,16 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ProfileFragment extends Fragment {
 
+    private static final String TAG = "ProfileFragment";
+
     Button ProfileFixBtn;
     Button CheckPetBtn;
+    TextView text1;
 
     //하단 버튼 없애기
     private View decorView;
@@ -38,6 +45,7 @@ public class ProfileFragment extends Fragment {
     @Override  // Inflate the layout for this fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         //하단 버튼을 없애는 기능
         decorView = getActivity().getWindow().getDecorView();
@@ -51,8 +59,9 @@ public class ProfileFragment extends Fragment {
         decorView.setSystemUiVisibility(uiOption);
         //---------------------
 
+        DBInfo(view);
 
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
         // 프로필 편집 , 반려동물 편집 버튼
         ProfileFixBtn = view.findViewById(R.id.profileButton1);
         ProfileFixBtn.setOnClickListener(this::onClick);
@@ -92,5 +101,21 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent2);
                 break;
         }
+    }
+
+    public void DBInfo(View view) {
+        MyDbHelper dbHelper = new MyDbHelper(getActivity().getApplicationContext());
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor c = db.rawQuery("SELECT * FROM " + Member.TABLE_NAME, null);
+
+        if (c.moveToFirst()) {
+            String member_name = c.getString(2);
+            Log.i(TAG, "name :" + member_name);
+            text1 = (TextView) view.findViewById(R.id.profileText7);
+            text1.setText(member_name);
+        }
+        c.close();
+        db.close();
     }
 }
