@@ -44,4 +44,11 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public boolean deleteBoardToPK(int Id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(" DELETE FROM " + Board.TABLE_NAME + " WHERE " + Board.COLUMN_BOARD_ID + " = "  + Id + " ;" );
+        db.execSQL(" DELETE FROM " + Comment.TABLE_NAME + " WHERE " + Comment.COLUMN_BOARD_ID + " = "  + Id + " ;" );
+        return true;
+    }
+
 }

@@ -49,6 +49,7 @@ public class BoardContentsActivity extends AppCompatActivity {
 
     EditText comentText;
     Button sendComm;
+    Button delBoard;
 
     //하단 버튼 없애기
     private View decorView;
@@ -94,7 +95,7 @@ public class BoardContentsActivity extends AppCompatActivity {
         comentText = findViewById(R.id.commentText);
         sendComm = findViewById(R.id.sendComment);
         heartBtn = findViewById(R.id.heartBtn);
-
+        delBoard = findViewById(R.id.delBtn);
 
         //하단 버튼을 없애는 기능
         decorView = getWindow().getDecorView();
@@ -177,6 +178,24 @@ public class BoardContentsActivity extends AppCompatActivity {
                     overridePendingTransition(0, 0);//인텐트 효과 없애기
 
                 }
+            }
+        });
+
+
+        delBoard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                     boolean Ok =  dbHelper.deleteBoardToPK(boardId);
+
+                     if(Ok){
+                         Log.i(TAG, " 삭제 완료 ");
+                         finish();
+                     }
+                     else{
+                         Log.i(TAG, "삭제 실패");
+                     }
+
             }
         });
 

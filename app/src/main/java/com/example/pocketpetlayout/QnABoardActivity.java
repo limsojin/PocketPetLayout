@@ -104,6 +104,9 @@ public class QnABoardActivity extends AppCompatActivity {
                 }
             });
         }
+        else{
+            Log.i( TAG, "비어 있음");
+        }
 
         // 플로팅 버튼
         fab = (FloatingActionButton) findViewById(R.id.fab);
