@@ -15,6 +15,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -29,7 +31,8 @@ public class FreeBoardActivity extends AppCompatActivity {
     //하단 버튼 없애기
     private View decorView;
     private int	uiOption;
-
+    Button searchBtn;
+    EditText searchWord;
     //DB
     DBHelper dbHelper;
     //플로팅버튼
@@ -75,16 +78,17 @@ public class FreeBoardActivity extends AppCompatActivity {
         //ListView에 QnA 게시글 나열하기위한 데이터 초기화
         InitializeQnABoardData();
 
+        //Listview 지정
+        ListView qnaListView = this.findViewById(R.id.freeListView);
+
+        // ListView Adpater 지정
+        final BoardAdapter boardAdapter = new BoardAdapter(this, Free_BoardItems);
+
+        // ListView의 어뎁터를 셋한다.
+        qnaListView.setAdapter(boardAdapter);
+
         if(!Free_BoardItems.isEmpty())
         {
-            //Listview 지정
-            ListView qnaListView = this.findViewById(R.id.freeListView);
-
-            // ListView Adpater 지정
-            final BoardAdapter boardAdapter = new BoardAdapter(this, Free_BoardItems);
-
-            // ListView의 어뎁터를 셋한다.
-            qnaListView.setAdapter(boardAdapter);
 
             //ListView 내부 아이템이 클릭 되었을 경우?
             qnaListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -119,7 +123,19 @@ public class FreeBoardActivity extends AppCompatActivity {
                 startActivity(intent); //액티비티 열기
             }
         });
+        searchBtn = findViewById(R.id.searchBtn);
+        searchWord = findViewById(R.id.searchWord);
 
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = searchWord.getText().toString();
+                SearchDb2(text);
+                Log.i(TAG,"text: " +text);
+                // 리스트 데이터가 변경되었으므로 아답터를 갱신하여 검색된 데이터를 화면에 보여준다.
+                boardAdapter.notifyDataSetChanged();
+            }
+        });
 
     }
 
@@ -186,6 +202,35 @@ public class FreeBoardActivity extends AppCompatActivity {
         }
         c.close();
         db.close();
+    }
+
+    public void SearchDb2(String charText){
+        //등록된 데이터 리스트 지우고
+        Free_BoardItems.clear();
+        int id = 11;
+        String title = "귀여움";
+        String writer = "응애나애기쥐";
+        String regDate = "2022-05-29";
+        int heart = 15;
+        int com = 5;
+
+        int id2 = 12;
+        String title2 = "친칠라 귀 염증 문제";
+        String writer2 = "luv";
+        String regDate2 = "2022-05-13";
+        int heart2 = 11;
+        int com2 = 2;
+
+        int id3 = 13;
+        String title3 = "귀염아기토깽이";
+        String writer3 = "달나라출신";
+        String regDate3 = "2022-05-27";
+        int heart3 = 22;
+        int com3 = 1;
+
+        Free_BoardItems.add(new BoardItem(id,title,writer,regDate,heart,com));
+        Free_BoardItems.add(new BoardItem(id2,title2,writer2,regDate2,heart2,com2));
+        Free_BoardItems.add(new BoardItem(id3,title3,writer3,regDate3,heart3,com3));
     }
 
 }

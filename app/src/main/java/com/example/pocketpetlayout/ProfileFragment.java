@@ -93,11 +93,11 @@ public class ProfileFragment extends Fragment {
     public void onClick(View view){
         switch (view.getId()){
             case R.id.profileButton1:
-                Intent intent = new Intent(getActivity().getApplicationContext(), ProfileFix.class);
+                Intent intent = new Intent(getActivity().getApplicationContext(), ProfileFixActivity.class);
                 startActivity(intent);
                 break;
             case R.id.profileButton2:
-                Intent intent2 = new Intent(getActivity().getApplicationContext(), PetProfileCheck.class);
+                Intent intent2 = new Intent(getActivity().getApplicationContext(), PetProfileCheckActivity.class);
                 startActivity(intent2);
                 break;
         }

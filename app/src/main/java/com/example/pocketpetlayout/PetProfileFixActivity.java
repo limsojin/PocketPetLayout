@@ -9,26 +9,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.InputStream;
 
-public class ProfileFix extends AppCompatActivity {
+public class PetProfileFixActivity extends AppCompatActivity {
 
     EditText etext1;
     EditText etext2;
@@ -37,7 +36,7 @@ public class ProfileFix extends AppCompatActivity {
     Bitmap bitmap;
     ImageView imageView;
     private static final int REQUEST_CODE = 0;
-    private static final String TAG = "ProfileFix";
+    private static final String TAG = "PetProfileFix";
 
     //하단 버튼 없애기
     private View decorView;
@@ -54,11 +53,11 @@ public class ProfileFix extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case android.R.id.home: //toolbar의 back키 눌렀을 때 동작
+            case android.R.id.home://toolbar의 back키 눌렀을 때 동작
                 finish();
                 return true;
             case R.id.toolbar_check: // 체크 버튼을 통해 반려동물 프로필로 이동
-                Intent intent = new Intent(getApplicationContext(), ProfileFragment.class);
+                Intent intent = new Intent(getApplicationContext(), PetProfileActivity.class);
                 startActivity(intent);
                 return true;
         }
@@ -68,7 +67,8 @@ public class ProfileFix extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_fix);
+        setContentView(R.layout.activity_pet_profile_fix);
+
 
         //하단 버튼을 없애는 기능
         decorView = getWindow().getDecorView();
@@ -92,7 +92,7 @@ public class ProfileFix extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
 
         // 이미지 클릭 하여 메뉴 보이기
-        imageView = findViewById(R.id.img_user);
+        imageView = findViewById(R.id.img_user1);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -160,23 +160,22 @@ public class ProfileFix extends AppCompatActivity {
         }
     }
 
-
     public void DBInfo() {
         MyDbHelper dbHelper = new MyDbHelper(getApplicationContext());
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        Cursor c = db.rawQuery("SELECT * FROM " + Member.TABLE_NAME, null);
+        Cursor c = db.rawQuery("SELECT * FROM " + Pet.TABLE_NAME, null);
 
         if (c.moveToFirst()) {
-            String member_name = c.getString(2);
-            String sex = c.getString(3);
-            String birthday = c.getString(4);
 
-            Log.i(TAG, "name :" + member_name);
-            etext1 = findViewById(R.id.profileFixEditText1);
-            etext2 = findViewById(R.id.profileFixEditText2);
-            etext3 = findViewById(R.id.profileFixEditText3);
-            etext1.setText(member_name);
+            String pet_name = c.getString(0);
+            String birthday = c.getString(1);
+            String sex = c.getString(2);
+            Log.i(TAG, "name :" + pet_name + "birthday :" + birthday + "sex :" + sex);
+            etext1 = findViewById(R.id.PetprofileFixEditText1);
+            etext2 = findViewById(R.id.PetprofileFixEditText2);
+            etext3 = findViewById(R.id.PetprofileFixEditText3);
+            etext1.setText(pet_name);
             etext2.setText(sex);
             etext3.setText(birthday);
         }

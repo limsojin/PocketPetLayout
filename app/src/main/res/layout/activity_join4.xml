@@ -67,17 +67,17 @@
             android:padding="8dp" />
 
         <android.widget.Button
+            android:id="@+id/overlap3"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_marginRight="20dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
             android:layout_toRightOf="@+id/petnickname"
             android:background="@drawable/blue"
             android:text="중복검사"
+            android:textColor="@color/white"
             android:textSize="18dp"
-            android:textStyle="bold"
-            android:textColor="@color/white">
-        </android.widget.Button>
+            android:textStyle="bold"></android.widget.Button>
     </RelativeLayout>
 
     <TextView

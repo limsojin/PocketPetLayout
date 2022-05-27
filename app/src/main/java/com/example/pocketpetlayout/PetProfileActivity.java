@@ -15,7 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class PetProfile extends AppCompatActivity {
+public class PetProfileActivity extends AppCompatActivity {
 
     private static final String TAG = "PetProfile" ;
     TextView text1;
@@ -53,7 +53,7 @@ public class PetProfile extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
-                Intent intent = new Intent(getApplicationContext(), PetProfileFix.class);
+                Intent intent = new Intent(getApplicationContext(), PetProfileFixActivity.class);
                 startActivity(intent);
             }
         });
@@ -63,7 +63,7 @@ public class PetProfile extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
-                Intent intent = new Intent(getApplicationContext(), PetProfileCheck.class);
+                Intent intent = new Intent(getApplicationContext(), PetProfileCheckActivity.class);
                 startActivity(intent);
             }
         });

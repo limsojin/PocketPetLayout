@@ -4,28 +4,28 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 public class JoinActivity2 extends AppCompatActivity {
-
+    private static final String TAG = ".JoinActivity2";
     String emailSt;
     String passwordSt2;
     String passwordSt3;
-    SQLiteDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join2);
-
         MyDbHelper myDbHelper = new MyDbHelper(getApplicationContext());
-        database = myDbHelper.getWritableDatabase();
-
+        Button overlap = (Button) findViewById(R.id.overlap);
+        Button okbtn = (Button) findViewById(R.id.okbtn);
         Button nextbtn = (Button) findViewById(R.id.nextbtn);
         EditText email1 = (EditText) findViewById(R.id.email1);
         EditText password2 = (EditText) findViewById(R.id.password2);
@@ -46,16 +46,44 @@ public class JoinActivity2 extends AppCompatActivity {
                     return;
                 }
 
-                if (password2 == password3){
-                    Toast toast = Toast.makeText(JoinActivity2.this, "비밀번호 재입력이 틀렸습니다", Toast.LENGTH_SHORT);
-                }
-
-                intent.putExtra("MEMBER_ID",emailSt );
+                intent.putExtra("MEMBER_ID",emailSt);
                 intent.putExtra("PASSWORD",passwordSt2);
-                intent.putExtra("PASSWORDST",passwordSt3);
+                //intent.putExtra("PASSWORDST",passwordSt3);
                 startActivity(intent);
             }
         });
+
+        okbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!(password2.equals(password3))){
+                    Toast toast = Toast.makeText(JoinActivity2.this, "비밀번호 재입력이 틀렸습니다", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+        });
+        overlap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SQLiteDatabase db = myDbHelper.getReadableDatabase();
+                Cursor c =db.rawQuery("SELECT * FROM " + Member.TABLE_NAME, null);
+                if(c.moveToFirst()){
+                    do{
+                        String email = c.getString(0);
+                        Log.i(TAG,"email: " + email);
+                        emailSt= email1.getText().toString();
+
+                        if(email.equals(emailSt)){
+                            Log.i(TAG, "emailSt: " + emailSt);
+                            Toast toast = Toast.makeText(JoinActivity2.this, "이미 존재하는 이메일입니다.", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+                    }while(c.moveToNext());
+                }
+            }
+        });
+
+
     }
 
 }

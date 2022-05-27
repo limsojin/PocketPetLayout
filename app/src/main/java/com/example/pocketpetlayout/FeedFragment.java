@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 
@@ -27,7 +29,10 @@ public class FeedFragment extends Fragment {
     FloatingActionButton fab;
     GridView gridView;
     MyDbHelper myDbHelper;
-
+    Button search_button;
+    EditText search_title;
+    String title;
+    ImageView imageView;
     //하단 버튼 없애기
     private View decorView;
     private int	uiOption;
@@ -42,6 +47,9 @@ public class FeedFragment extends Fragment {
         myDbHelper = new MyDbHelper(this.getActivity().getApplicationContext());
         View rootView = inflater.inflate(R.layout.fragment_feed, null);
 
+        search_button = rootView.findViewById(R.id.search_button);
+        search_title = rootView.findViewById(R.id.search_title);
+        imageView = rootView.findViewById(R.id.imageView);
 
         loadContent();
         gridView=(GridView) rootView.findViewById(R.id.gridview);
@@ -80,9 +88,43 @@ public class FeedFragment extends Fragment {
             }
         });
 
+        search_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                title = search_title.getText().toString();
+
+                SQLiteDatabase db = myDbHelper.getReadableDatabase();
+
+                Cursor c = db.rawQuery("SELECT * FROM " + Feed.TABLE_NAME + " WHERE " + Feed.FEED_TITLE + " = '" + title + "' ; ",  null );
+
+                if(c.moveToFirst()){
+                    do{
+                        String feed_title = c.getString(1);
+                        String writer = c.getString(2);
+                        String image = c.getString(3);
+                        Log.i(TAG, "title: " + feed_title);
+
+                        String path = getContext().getCacheDir()+ "/" + image;
+                        Bitmap bitmap = BitmapFactory.decodeFile(path);
+                        imageView.setImageBitmap(bitmap);
+
+                        //feedAdapter3 = new FeedAdapter3(getContext(), newFeedItems);
+                        //gridView.setAdapter(feedAdapter3);
+                        //feedAdapter3.notifyDataSetChanged();
+                    }while(c.moveToNext());
+                }
+                c.close();
+                db.close();
+
+            }
+
+        });
+
         return rootView;
 
     }
+
+
     public void loadContent(){
         ImageView imageView = null;
         Log.i(TAG, "loadContents");
